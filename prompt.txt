@@ -113,3 +113,40 @@ const prompt = `
 
     Ensure all explanations are clear and directly relate to the patient's case.
 `;
+
+
+    const prompt = `
+        Patient Information:
+        Name: ${patientName}
+        Age: ${age}
+        Gender: ${gender}
+        Symptoms: ${symptoms}
+        Past Medical History/Long-term Problems: ${pastMedicalHistory || 'None'}
+
+        Based on this information, provide potential medical findings, suitable medications, and required lab tests.
+        **It is CRITICAL to adhere to the following specific output format and detail level for each section:**
+
+        Findings:
+        - [Concise Finding 1 (e.g., "Common Cold", "Possible Pneumonia", "Migraine")]
+        - [Concise Finding 2]
+        - [Concise Finding 3]
+        - [Concise Finding 4]
+        - [Concise Finding 5]
+        - [Concise Finding 6]
+        (For Findings, provide ONLY short, specific names, WITHOUT any explanations or descriptions.)
+
+        Medications:
+        - **[Medication Name]**: [REQUIRED EXPLANATION: Briefly describe its primary use, mechanism of action, or specific relevance to the patient's condition and symptoms. For instance, "This medication is commonly used to relieve pain and reduce fever."]
+        - **[Medication Name]**: [REQUIRED EXPLANATION: Briefly describe its primary use or relevance.
+        - **[Medication Name]**: [REQUIRED EXPLANATION: Explain its role in the treatment plan, especially if it's a supportive or secondary medication (e.g., “Prescribed alongside the primary drug to minimize gastric irritation.”)
+        - **[Medication Name]**: [REQUIRED EXPLANATION: For any secondary medications, clearly state how they complement or counteract potential side effects of the primary medication.
+
+        (Each medication MUST be bolded and FOLLOWED by a concise, relevant explanation.)
+
+        Lab Tests:
+        - **[Lab Test Name]**: [REQUIRED EXPLAINATION: Briefly describe what the test measures, its purpose, and its specific relevance to diagnosing or monitoring the patient's condition based on the provided information. For instance, "This test measures white blood cell count to detect infection or inflammation."]
+        - **[Lab Test Name]**: [REQUIRED EXPLAINATION: Briefly describe what the test measures and its relevance.]
+        (Each lab test MUST be bolded and FOLLOWED by a concise, relevant explanation.)
+
+        Ensure all explanations are clear and directly relate to the patient's case.
+    `;
