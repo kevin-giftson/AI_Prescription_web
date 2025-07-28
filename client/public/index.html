@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prescription Suggestion Maker</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f7f6; }
+        .container { max-width: 1200px; margin: auto; padding: 25px; border: 1px solid #e0e0e0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); background-color: white; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+
+        input[type="text"], textarea, select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        select { width: 100%; }
+        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; transition: background-color 0.2s ease; }
+        button:hover { background-color: #0056b3; }
+
+        /* Two-Column Layout */
+        .content-wrapper {
+            display: flex;
+            gap: 20px; /* Space between columns */
+        }
+
+        .details-column {
+            flex: 7; /* Takes 70% of available space */
+            padding-right: 10px; /* Small padding to prevent text touching edge */
+        }
+
+        .suggestions-column {
+            flex: 3; /* Takes 30% of available space */
+            border-left: 1px solid #eee;
+            padding-left: 20px;
+        }
+
+        /* Layout for Name, Age, Gender */
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .form-column {
+            flex: 1;
+        }
+        .form-column label, .form-column input, .form-column select {
+            margin-bottom: 0;
+        }
+
+        .suggestions h3 {
+            margin-top: 0; /* Reset margin for h3 in suggestions column */
+        }
+
+        .suggestion-item {
+            background-color: #e6f7ff;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid #a3e6ff;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+            display: flex;
+            align-items: center;
+        }
+        .suggestion-item:hover {
+            background-color: #cceeff;
+            transform: translateY(-2px);
+        }
+        .suggestion-item.selected {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        h1, h2, h3, h4 { color: #2c3e50; margin-bottom: 15px; }
+
+        /* Chip Input Styling */
+        .text-input-chip-container {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            min-height: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            align-items: center;
+            margin-bottom: 15px;
+            background-color: #fff;
+            position: relative; /* For positioning the internal input and dropdown */
+        }
+        .text-input-chip-container input { /* Style for the actual text input inside the chip container */
+            flex-grow: 1; /* Allow input to take remaining space */
+            border: none;
+            outline: none;
+            padding: 5px 0; /* Adjust padding for visual alignment */
+            margin: 0; /* Remove default margin */
+            width: auto; /* Override 100% width from general input style */
+            min-width: 80px; /* Ensure input is always visible */
+        }
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            background-color: #007bff;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        .chip-remove {
+            background: none;
+            border: none;
+            color: white;
+            font-weight: bold;
+            margin-left: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            padding: 0 3px;
+            line-height: 1;
+        }
+        .chip-remove:hover {
+            color: #ffdddd;
+        }
+
+        /* Autocomplete dropdown for manual typing */
+        .autocomplete-dropdown {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ddd;
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 100;
+            width: calc(100% - 10px); /* Match container width minus padding */
+            left: 5px;
+            top: 100%; /* Position right below the input container */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            display: none; /* Hidden by default */
+        }
+        .autocomplete-dropdown-item {
+            padding: 8px 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        .autocomplete-dropdown-item:last-child {
+            border-bottom: none;
+        }
+        .autocomplete-dropdown-item:hover, .autocomplete-dropdown-item.active {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Prescription Suggestion Maker</h1>
+        <div class="content-wrapper">
+            <div class="details-column">
+                <form id="patientForm">
+                    <div class="form-row">
+                        <div class="form-column">
+                            <label for="patientName">Patient Name:</label>
+                            <input type="text" id="patientName" required>
+                        </div>
+                        <div class="form-column">
+                            <label for="age">Age:</label>
+                            <input type="text" id="age" required>
+                        </div>
+                        <div class="form-column">
+                            <label for="gender">Gender:</label>
+                            <select id="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label for="symptoms">Symptoms (e.g., fever, cough, headache):</label>
+                    <textarea id="symptoms" rows="4" required></textarea>
+
+                    <label for="pastMedicalHistory">Past Medical History / Long-term Problems (Optional, e.g., Sugar, Hypertension):</label>
+                    <textarea id="pastMedicalHistory" rows="2"></textarea>
+
+                    <label>Findings:</label>
+                    <div id="selectedFindingsChips" class="text-input-chip-container">
+                        <input type="text" placeholder="Add findings or type here..." class="chip-manual-input" data-type="finding">
+                        <div class="autocomplete-dropdown" id="findingsAutocompleteDropdown"></div>
+                    </div>
+                    <input type="hidden" id="finalFindingsInput" name="finalFindings">
+
+                    <label>Medications:</label>
+                    <div id="selectedMedicationsChips" class="text-input-chip-container">
+                        <input type="text" placeholder="Add medications or type here..." class="chip-manual-input" data-type="medication">
+                        <div class="autocomplete-dropdown" id="medicationsAutocompleteDropdown"></div>
+                    </div>
+                    <input type="hidden" id="finalMedicationsInput" name="finalMedications">
+
+                    <label>Lab Tests:</label>
+                    <div id="selectedLabTestsChips" class="text-input-chip-container">
+                        <input type="text" placeholder="Add lab tests or type here..." class="chip-manual-input" data-type="lab_test">
+                        <div class="autocomplete-dropdown" id="labTestsAutocompleteDropdown"></div>
+                    </div>
+                    <input type="hidden" id="finalLabTestsInput" name="finalLabTests">
+
+                    <button type="submit">Get Suggestions</button>
+                </form>
+            </div>
+
+            <div class="suggestions-column">
+                <div class="suggestions" id="aiSuggestions">
+                    <h3>Suggested Findings:</h3>
+                    <div id="findingsList"></div>
+
+                    <h3>Suggested Medications from AI:</h3>
+                    <div id="medicationsList"></div>
+
+                    <h3>Suggested Lab Tests:</h3>
+                    <div id="labTestsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

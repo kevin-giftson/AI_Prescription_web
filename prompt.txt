@@ -1,0 +1,115 @@
+// VARIATION 1: EVERYTHING IN DETAIL
+const prompt = `
+    Patient Information:
+    Name: ${patientName}
+    Age: ${age}
+    Gender: ${gender}
+    Symptoms: ${symptoms}
+    Past Medical History/Long-term Problems: ${pastMedicalHistory || 'None'}
+
+    Based on this information, provide detailed medical findings, suitable medications, and required lab tests.
+    **It is CRITICAL to adhere to the following specific output format and detail level for each section:**
+
+    Findings:
+    - **[Finding Name]**: [COMPREHENSIVE EXPLANATION: Describe the finding, its characteristics, and its relevance to the patient's symptoms and history in detail.]
+    - **[Finding Name]**: [COMPREHENSIVE EXPLANATION]
+    (Each finding MUST be bolded and FOLLOWED by a detailed explanation.)
+
+    Medications:
+    - **[Medication Name]**: [DETAILED EXPLANATION: Describe its primary use, mechanism of action, important considerations, and specific relevance to the patient's condition and symptoms in detail.]
+    - **[Medication Name]**: [DETAILED EXPLANATION]
+    (Each medication MUST be bolded and FOLLOWED by a detailed explanation.)
+
+    Lab Tests:
+    - **[Lab Test Name]**: [DETAILED EXPLANATION: Describe what the test measures, the biological basis for its relevance, its purpose in diagnosis or monitoring, typical expected results, and how results might relate to the patient's condition in detail.]
+    - **[Lab Test Name]**: [DETAILED EXPLANATION]
+    (Each lab test MUST be bolded and FOLLOWED by a detailed explanation.)
+
+    Ensure all explanations are clear and directly relate to the patient's case.
+`;
+
+// VARIATION 2: EVERYTHING IN CONCISE VERSION
+const prompt = `
+    Patient Information:
+    Name: ${patientName}
+    Age: ${age}
+    Gender: ${gender}
+    Symptoms: ${symptoms}
+    Past Medical History/Long-term Problems: ${pastMedicalHistory || 'None'}
+
+    Based on this information, provide concise medical findings, suitable medications, and required lab tests.
+    **It is CRITICAL to adhere to the following specific output format for each section:**
+
+    Findings:
+    - **[Concise Finding Name]**
+    - **[Concise Finding Name]**
+    (For Findings, provide ONLY short, specific, bolded names, WITHOUT any explanations or descriptions.)
+
+    Medications:
+    - **[Concise Medication Name]**
+    - **[Concise Medication Name]**
+    (For Medications, provide ONLY short, specific, bolded names, WITHOUT any explanations or descriptions.)
+
+    Lab Tests:
+    - **[Concise Lab Test Name]**
+    - **[Concise Lab Test Name]**
+    (For Lab Tests, provide ONLY short, specific, bolded names, WITHOUT any explanations or descriptions.)
+`;
+
+// VARIATION 3: EVERYTHING EXCEPT FINDINGS IS IN CONCISE VERSION
+const prompt = `
+    Patient Information:
+    Name: ${patientName}
+    Age: ${age}
+    Gender: ${gender}
+    Symptoms: ${symptoms}
+    Past Medical History/Long-term Problems: ${pastMedicalHistory || 'None'}
+
+    Based on this information, provide detailed medical findings, but concise medications and lab tests.
+    **It is CRITICAL to adhere to the following specific output format and detail level for each section:**
+
+    Findings:
+    - **[Finding Name]**: [COMPREHENSIVE EXPLANATION: Describe the finding, its characteristics, and its relevance to the patient's symptoms and history in detail.]
+    - **[Finding Name]**: [COMPREHENSIVE EXPLANATION]
+    (Each finding MUST be bolded and FOLLOWED by a detailed explanation.)
+
+    Medications:
+    - **[Concise Medication Name]**
+    - **[Concise Medication Name]**
+    (For Medications, provide ONLY short, specific, bolded names, WITHOUT any explanations or descriptions.)
+
+    Lab Tests:
+    - **[Concise Lab Test Name]**
+    - **[Concise Lab Test Name]**
+    (For Lab Tests, provide ONLY short, specific, bolded names, WITHOUT any explanations or descriptions.)
+`;
+
+// VARIATION 4: EVERYTHING EXCEPT MEDICATION IS IN DETAIL VERSION
+const prompt = `
+    Patient Information:
+    Name: ${patientName}
+    Age: ${age}
+    Gender: ${gender}
+    Symptoms: ${symptoms}
+    Past Medical History/Long-term Problems: ${pastMedicalHistory || 'None'}
+
+    Based on this information, provide detailed medical findings and lab tests, but concise medications.
+    **It is CRITICAL to adhere to the following specific output format and detail level for each section:**
+
+    Findings:
+    - **[Finding Name]**: [COMPREHENSIVE EXPLANATION: Describe the finding, its characteristics, and its relevance to the patient's symptoms and history in detail.]
+    - **[Finding Name]**: [COMPREHENSIVE EXPLANATION]
+    (Each finding MUST be bolded and FOLLOWED by a detailed explanation.)
+
+    Medications:
+    - **[Concise Medication Name]**
+    - **[Concise Medication Name]**
+    (For Medications, provide ONLY short, specific, bolded names, WITHOUT any explanations or descriptions.)
+
+    Lab Tests:
+    - **[Lab Test Name]**: [DETAILED EXPLANATION: Describe what the test measures, the biological basis for its relevance, its purpose in diagnosis or monitoring, typical expected results, and how results might relate to the patient's condition in detail.]
+    - **[Lab Test Name]**: [DETAILED EXPLANATION]
+    (Each lab test MUST be bolded and FOLLOWED by a detailed explanation.)
+
+    Ensure all explanations are clear and directly relate to the patient's case.
+`;
