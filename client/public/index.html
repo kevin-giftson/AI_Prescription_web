@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Prescription Suggestion Maker</title>
     <style>
-        body { font-family: sans-serif; margin: 20px; background-color: #f4f7f6; }
-        .container { max-width: 1200px; margin: auto; padding: 25px; border: 1px solid #e0e0e0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); background-color: white; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
 
-        input[type="text"], textarea, select {
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            background-color: white;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
             width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 15px;
@@ -18,23 +35,43 @@
             font-size: 1em;
             box-sizing: border-box;
         }
-        select { width: 100%; }
-        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; transition: background-color 0.2s ease; }
-        button:hover { background-color: #0056b3; }
+
+        select {
+            width: 100%;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
 
         /* Two-Column Layout */
         .content-wrapper {
             display: flex;
-            gap: 20px; /* Space between columns */
+            gap: 20px;
+            /* Space between columns */
         }
 
         .details-column {
-            flex: 7; /* Takes 70% of available space */
-            padding-right: 10px; /* Small padding to prevent text touching edge */
+            flex: 7;
+            /* Takes 70% of available space */
+            padding-right: 10px;
+            /* Small padding to prevent text touching edge */
         }
 
         .suggestions-column {
-            flex: 3; /* Takes 30% of available space */
+            flex: 3;
+            /* Takes 30% of available space */
             border-left: 1px solid #eee;
             padding-left: 20px;
         }
@@ -45,15 +82,20 @@
             gap: 15px;
             margin-bottom: 15px;
         }
+
         .form-column {
             flex: 1;
         }
-        .form-column label, .form-column input, .form-column select {
+
+        .form-column label,
+        .form-column input,
+        .form-column select {
             margin-bottom: 0;
         }
 
         .suggestions h3 {
-            margin-top: 0; /* Reset margin for h3 in suggestions column */
+            margin-top: 0;
+            /* Reset margin for h3 in suggestions column */
         }
 
         .suggestion-item {
@@ -67,16 +109,24 @@
             display: flex;
             align-items: center;
         }
+
         .suggestion-item:hover {
             background-color: #cceeff;
             transform: translateY(-2px);
         }
+
         .suggestion-item.selected {
             background-color: #d4edda;
             border-color: #c3e6cb;
         }
 
-        h1, h2, h3, h4 { color: #2c3e50; margin-bottom: 15px; }
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
 
         /* Chip Input Styling */
         .text-input-chip-container {
@@ -90,17 +140,26 @@
             align-items: center;
             margin-bottom: 15px;
             background-color: #fff;
-            position: relative; /* For positioning the internal input and dropdown */
+            position: relative;
+            /* For positioning the internal input and dropdown */
         }
-        .text-input-chip-container input { /* Style for the actual text input inside the chip container */
-            flex-grow: 1; /* Allow input to take remaining space */
+
+        .text-input-chip-container input {
+            /* Style for the actual text input inside the chip container */
+            flex-grow: 1;
+            /* Allow input to take remaining space */
             border: none;
             outline: none;
-            padding: 5px 0; /* Adjust padding for visual alignment */
-            margin: 0; /* Remove default margin */
-            width: auto; /* Override 100% width from general input style */
-            min-width: 80px; /* Ensure input is always visible */
+            padding: 5px 0;
+            /* Adjust padding for visual alignment */
+            margin: 0;
+            /* Remove default margin */
+            width: auto;
+            /* Override 100% width from general input style */
+            min-width: 80px;
+            /* Ensure input is always visible */
         }
+
         .chip {
             display: inline-flex;
             align-items: center;
@@ -110,6 +169,7 @@
             border-radius: 20px;
             font-size: 0.9em;
         }
+
         .chip-remove {
             background: none;
             border: none;
@@ -121,6 +181,7 @@
             padding: 0 3px;
             line-height: 1;
         }
+
         .chip-remove:hover {
             color: #ffdddd;
         }
@@ -133,26 +194,35 @@
             max-height: 150px;
             overflow-y: auto;
             z-index: 100;
-            width: calc(100% - 10px); /* Match container width minus padding */
+            width: calc(100% - 10px);
+            /* Match container width minus padding */
             left: 5px;
-            top: 100%; /* Position right below the input container */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            top: 100%;
+            /* Position right below the input container */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
-            display: none; /* Hidden by default */
+            display: none;
+            /* Hidden by default */
         }
+
         .autocomplete-dropdown-item {
             padding: 8px 10px;
             cursor: pointer;
             border-bottom: 1px solid #eee;
         }
+
         .autocomplete-dropdown-item:last-child {
             border-bottom: none;
         }
-        .autocomplete-dropdown-item:hover, .autocomplete-dropdown-item.active {
+
+        .autocomplete-dropdown-item:hover,
+        .autocomplete-dropdown-item.active {
             background-color: #f0f0f0;
         }
     </style>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <h1>AI Prescription Suggestion Maker</h1>
@@ -182,31 +252,58 @@
                     <label for="symptoms">Symptoms (e.g., fever, cough, headache):</label>
                     <textarea id="symptoms" rows="4" required></textarea>
 
-                    <label for="pastMedicalHistory">Past Medical History / Long-term Problems (Optional, e.g., Sugar, Hypertension):</label>
+                    <label for="pastMedicalHistory">Past Medical History / Long-term Problems (Optional, e.g., Sugar,
+                        Hypertension):</label>
                     <textarea id="pastMedicalHistory" rows="2"></textarea>
 
                     <label>Findings:</label>
                     <div id="selectedFindingsChips" class="text-input-chip-container">
-                        <input type="text" placeholder="Add findings or type here..." class="chip-manual-input" data-type="finding">
+                        <input type="text" placeholder="Add findings or type here..." class="chip-manual-input"
+                            data-type="finding">
                         <div class="autocomplete-dropdown" id="findingsAutocompleteDropdown"></div>
                     </div>
                     <input type="hidden" id="finalFindingsInput" name="finalFindings">
 
+                    <!-- NEW MEDICATIONS TABLE STRUCTURE -->
                     <label>Medications:</label>
-                    <div id="selectedMedicationsChips" class="text-input-chip-container">
-                        <input type="text" placeholder="Add medications or type here..." class="chip-manual-input" data-type="medication">
+                     <div id="selectedMedicationsChips" class="text-input-chip-container">
+                        <input type="text" placeholder="Add medications or type here..." class="chip-manual-input"
+                            data-type="medication">
                         <div class="autocomplete-dropdown" id="medicationsAutocompleteDropdown"></div>
-                    </div>
-                    <input type="hidden" id="finalMedicationsInput" name="finalMedications">
+                        
+                        <div id="medicationsTableContainer" class="medications-table-container">
+                            <table class="medications-table">
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Medicine Name</th>
+                                        <th>Medicine Type</th>
+                                        <th>Dosage</th>
+                                        <th>Duration (in days)</th>
+                                        <th>Instruction</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="medicationsTableBody">
+                                    <!-- Medication rows will be injected here by JavaScript -->
+                                </tbody>
+                            </table>
+                            <button type="button" class="add-row-btn" id="addMedicationRowBtn">Add Medication</button>
+                            
+                        </div>
+                        <!-- Hidden input to store medication data as JSON -->
+                        <input type="hidden" id="finalMedicationsInput" name="finalMedications">
+                        <!-- END NEW MEDICATIONS TABLE STRUCTURE -->
 
-                    <label>Lab Tests:</label>
-                    <div id="selectedLabTestsChips" class="text-input-chip-container">
-                        <input type="text" placeholder="Add lab tests or type here..." class="chip-manual-input" data-type="lab_test">
-                        <div class="autocomplete-dropdown" id="labTestsAutocompleteDropdown"></div>
-                    </div>
-                    <input type="hidden" id="finalLabTestsInput" name="finalLabTests">
+                        <label>Lab Tests:</label>
+                        <div id="selectedLabTestsChips" class="text-input-chip-container">
+                            <input type="text" placeholder="Add lab tests or type here..." class="chip-manual-input"
+                                data-type="lab_test">
+                            <div class="autocomplete-dropdown" id="labTestsAutocompleteDropdown"></div>
+                        </div>
+                        <input type="hidden" id="finalLabTestsInput" name="finalLabTests">
 
-                    <button type="submit">Get Suggestions</button>
+                        <button type="submit">Get Suggestions</button>
                 </form>
             </div>
 
@@ -225,6 +322,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
+
 </html>
