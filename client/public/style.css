@@ -1,0 +1,276 @@
+
+body { font-family: sans-serif; margin: 20px; background-color: #f4f7f6; }
+.container { max-width: 1200px; margin: auto; padding: 25px; border: 1px solid #e0e0e0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); background-color: white; }
+label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+
+input[type="text"], textarea, select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+select { width: 100%; }
+button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; transition: background-color 0.2s ease; }
+button:hover { background-color: #0056b3; }
+
+/* Two-Column Layout */
+.content-wrapper {
+    display: flex;
+    gap: 20px; /* Space between columns */
+}
+
+.details-column {
+    flex: 7; /* Takes 70% of available space */
+    padding-right: 10px; /* Small padding to prevent text touching edge */
+}
+
+.suggestions-column {
+    flex: 3; /* Takes 30% of available space */
+    border-left: 1px solid #eee;
+    padding-left: 20px;
+}
+
+/* Layout for Name, Age, Gender */
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.form-column {
+    flex: 1;
+}
+.form-column label, .form-column input, .form-column select {
+    margin-bottom: 0;
+}
+
+.suggestions h3 {
+    margin-top: 0; /* Reset margin for h3 in suggestions column */
+}
+
+.suggestion-item {
+    background-color: #e6f7ff;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid #a3e6ff;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+}
+.suggestion-item:hover {
+    background-color: #cceeff;
+    transform: translateY(-2px);
+}
+.suggestion-item.selected {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+h1, h2, h3, h4 { color: #2c3e50; margin-bottom: 15px; }
+
+/* Chip Input Styling (for Findings and Lab Tests) */
+.text-input-chip-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    min-height: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: #fff;
+    position: relative; /* For positioning the internal input and dropdown */
+}
+.text-input-chip-container input { /* Style for the actual text input inside the chip container */
+    flex-grow: 1; /* Allow input to take remaining space */
+    border: none;
+    outline: none;
+    padding: 5px 0; /* Adjust padding for visual alignment */
+    margin: 0; /* Remove default margin */
+    width: auto; /* Override 100% width from general input style */
+    min-width: 80px; /* Ensure input is always visible */
+}
+.chip {
+    display: inline-flex;
+    align-items: center;
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+.chip-remove {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    margin-left: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    padding: 0 3px;
+    line-height: 1;
+}
+.chip-remove:hover {
+    color: #ffdddd;
+}
+
+/* Autocomplete dropdown for manual typing */
+.autocomplete-dropdown {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 100;
+    width: calc(100% - 10px); /* Match container width minus padding */
+    left: 5px;
+    top: 100%; /* Position right below the input container */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    display: none; /* Hidden by default */
+}
+.autocomplete-dropdown-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+.autocomplete-dropdown-item:last-child {
+    border-bottom: none;
+}
+.autocomplete-dropdown-item:hover, .autocomplete-dropdown-item.active {
+    background-color: #f0f0f0;
+}
+
+/* Medication Table Specific Styles */
+.medications-table-container {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+}
+.medications-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+.medications-table th, .medications-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+}
+.medications-table th {
+    background-color: #eaf6ff;
+    color: #333;
+    font-weight: bold;
+}
+.medications-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.medications-table td input[type="text"],
+.medications-table td select,
+.medications-table td textarea {
+    width: calc(100% - 10px); /* Adjust for padding in table cells */
+    margin-bottom: 0;
+    padding: 5px;
+    font-size: 0.9em;
+}
+.medications-table td .dosage-options {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.medications-table td .dosage-time {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.medications-table td .dosage-time input[type="checkbox"] {
+    margin-right: 5px;
+    width: auto; /* Override default input width */
+}
+.medications-table td .dosage-time label {
+    display: inline;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+.medications-table td .meal-timing {
+    display: flex;
+    gap: 10px;
+    margin-left: 10px; /* Indent meal timing options */
+}
+.medications-table td .meal-timing input[type="radio"] {
+    margin-right: 3px;
+    width: auto;
+}
+.medications-table td .meal-timing label {
+    font-size: 0.85em;
+}
+.medications-table .action-buttons button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    font-size: 0.8em;
+    background-color: #28a745; /* Edit */
+}
+.medications-table .action-buttons button.delete-btn {
+    background-color: #dc3545; /* Delete */
+}
+.medications-table .action-buttons button:hover {
+    opacity: 0.9;
+}
+.add-row-btn {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: #17a2b8;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+.add-row-btn:hover {
+    background-color: #138496;
+}
+
+/* General styling for all autocomplete dropdowns */
+.autocomplete-dropdown {
+    position: absolute; /* Positioned relative to its parent container (td or chip container) */
+    border: 1px solid #ccc;
+    background-color: #fff;
+    max-height: 200px; /* Limit height and enable scrolling */
+    overflow-y: auto;
+    z-index: 1000; /* Ensure it appears on top of other elements */
+    width: auto; /* Adjust width dynamically to content */
+    min-width: 150px; /* Minimum width */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    left: 0; /* Align with the left edge of the parent */
+    top: 100%; /* Position directly below the input field */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    margin-top: 2px; /* Small gap below the input */
+}
+
+/* Specific styling for items within the dropdown */
+.autocomplete-dropdown-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add "..." for overflowing text */
+}
+
+/* Styling for hovered or keyboard-selected item */
+.autocomplete-dropdown-item:hover,
+.autocomplete-dropdown-item.active {
+    background-color: #f0f0f0;
+}
+
+/* Specific adjustments for medication table autocomplete dropdowns */
+/* This will inherit from .autocomplete-dropdown but can be overridden if needed */
+.autocomplete-dropdown[data-autocomplete-type="med"] {
+    width: 100%; /* Make it fill the width of its parent <td> minus padding/border */
+}

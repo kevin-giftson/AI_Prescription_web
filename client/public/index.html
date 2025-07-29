@@ -6,14 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Prescription Suggestion Maker</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-        html, 
-        body {
-            font-family: "Poppins", sans-serif;
-            margin: 20px;
-            background-color: #f4f7f6;
-        }
 
         .container {
             max-width: 1200px;
@@ -228,6 +220,7 @@
             background-color: #f0f0f0;
         }
     </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -271,23 +264,46 @@
                     </div>
                     <input type="hidden" id="finalFindingsInput" name="finalFindings">
 
+                    <!-- NEW MEDICATIONS TABLE STRUCTURE -->
                     <label>Medications:</label>
-                    <div id="selectedMedicationsChips" class="text-input-chip-container">
+                     <div id="selectedMedicationsChips" class="text-input-chip-container">
                         <input type="text" placeholder="Add medications or type here..." class="chip-manual-input"
                             data-type="medication">
                         <div class="autocomplete-dropdown" id="medicationsAutocompleteDropdown"></div>
-                    </div>
-                    <input type="hidden" id="finalMedicationsInput" name="finalMedications">
+                        
+                        <div id="medicationsTableContainer" class="medications-table-container">
+                            <table class="medications-table">
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Medicine Name</th>
+                                        <th>Medicine Type</th>
+                                        <th>Dosage</th>
+                                        <th>Duration (in days)</th>
+                                        <th>Instruction</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="medicationsTableBody">
+                                    <!-- Medication rows will be injected here by JavaScript -->
+                                </tbody>
+                            </table>
+                            <button type="button" class="add-row-btn" id="addMedicationRowBtn">Add Medication</button>
+                            
+                        </div>
+                        <!-- Hidden input to store medication data as JSON -->
+                        <input type="hidden" id="finalMedicationsInput" name="finalMedications">
+                        <!-- END NEW MEDICATIONS TABLE STRUCTURE -->
 
-                    <label>Lab Tests:</label>
-                    <div id="selectedLabTestsChips" class="text-input-chip-container">
-                        <input type="text" placeholder="Add lab tests or type here..." class="chip-manual-input"
-                            data-type="lab_test">
-                        <div class="autocomplete-dropdown" id="labTestsAutocompleteDropdown"></div>
-                    </div>
-                    <input type="hidden" id="finalLabTestsInput" name="finalLabTests">
+                        <label>Lab Tests:</label>
+                        <div id="selectedLabTestsChips" class="text-input-chip-container">
+                            <input type="text" placeholder="Add lab tests or type here..." class="chip-manual-input"
+                                data-type="lab_test">
+                            <div class="autocomplete-dropdown" id="labTestsAutocompleteDropdown"></div>
+                        </div>
+                        <input type="hidden" id="finalLabTestsInput" name="finalLabTests">
 
-                    <button type="submit">Get Suggestions</button>
+                        <button type="submit">Get Suggestions</button>
                 </form>
             </div>
 
@@ -306,7 +322,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>
