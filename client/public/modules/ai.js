@@ -8,7 +8,7 @@ import { addMedicationToTableFromAI, addChip } from './ui.js';
  * This function handles prompt generation, API calls to the server, and displaying AI responses.
  */
 export function initializeAILogic() {
-    document.getElementById('patientForm').addEventListener('submit', async function(event) {
+    document.getElementById('patientForm').addEventListener('submit', async function (event) {
         event.preventDefault(); // Prevent default form submission to handle it with JavaScript
 
         // Retrieve values from the form input fields
@@ -157,7 +157,7 @@ function parseAndDisplaySuggestions(aiResponseText) {
             itemDiv.dataset.value = itemText; // Store the clean, short name for chip/table logic
 
             // Add click event listener to each suggestion item
-            itemDiv.addEventListener('click', function() {
+            itemDiv.addEventListener('click', function () {
                 const type = itemDiv.dataset.type;
                 const value = itemDiv.dataset.value; // The clean name (e.g., "Acetaminophen")
 

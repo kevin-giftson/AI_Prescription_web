@@ -39,8 +39,8 @@ export async function loadMedicationsCSV() {
         const text = await response.text();
         // Parse CSV: split by new line, trim whitespace, filter out empty lines and comments.
         csvMedications = text.split('\n')
-                                     .map(line => line.trim())
-                                     .filter(line => line.length > 0 && !line.startsWith('//'));
+            .map(line => line.trim())
+            .filter(line => line.length > 0 && !line.startsWith('//'));
         console.log('Medications loaded from CSV (utils.js):', csvMedications.length, 'items');
     } catch (error) {
         console.error('Error loading medications CSV (utils.js):', error);

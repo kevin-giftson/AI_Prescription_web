@@ -38,7 +38,7 @@ export function addChip(containerId, hiddenInputId, text, type) {
     const removeButton = document.createElement('button');
     removeButton.classList.add('chip-remove');
     removeButton.textContent = 'x';
-    removeButton.addEventListener('click', function() {
+    removeButton.addEventListener('click', function () {
         chip.remove(); // Remove the chip from display
         updateHiddenInputValue(containerId, hiddenInputId); // Update hidden input
         // Also deselect the original AI suggestion item if it exists and was selected
@@ -47,7 +47,7 @@ export function addChip(containerId, hiddenInputId, text, type) {
             originalSuggestion.classList.remove('selected');
         }
         // Move focus back to the input field after removing a chip
-        if(inputField) inputField.focus();
+        if (inputField) inputField.focus();
     });
     chip.appendChild(removeButton);
 
@@ -57,7 +57,7 @@ export function addChip(containerId, hiddenInputId, text, type) {
     } else {
         container.appendChild(chip);
     }
-    
+
     updateHiddenInputValue(containerId, hiddenInputId);
 }
 
@@ -421,7 +421,7 @@ function setupAutocompleteForInput(inputElement, suggestionsArray, onSelectCallb
     });
 
     // Event listener for input changes to trigger autocomplete
-    inputElement.addEventListener('input', function() {
+    inputElement.addEventListener('input', function () {
         const query = this.value.trim().toLowerCase();
         autocompleteDropdown.innerHTML = '';
         autocompleteDropdown.style.display = 'none';
@@ -454,7 +454,7 @@ function setupAutocompleteForInput(inputElement, suggestionsArray, onSelectCallb
     });
 
     // Event listener for keyboard navigation in autocomplete
-    inputElement.addEventListener('keydown', function(e) {
+    inputElement.addEventListener('keydown', function (e) {
         const state = activeAutocompleteStates.get(inputElement);
         const suggestions = state.dropdown.querySelectorAll('.autocomplete-dropdown-item');
 
@@ -491,7 +491,7 @@ function setupAutocompleteForInput(inputElement, suggestionsArray, onSelectCallb
     });
 
     // Hide dropdown when clicking outside the input or its parent container
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (!parentContainer.contains(e.target) && e.target !== inputElement) {
             autocompleteDropdown.innerHTML = '';
             autocompleteDropdown.style.display = 'none';
@@ -510,7 +510,7 @@ export function initializeManualChipInput() {
         if (type !== 'finding' && type !== 'lab_test') return; // Only apply this specific setup to these types
 
         const container = inputField.closest('.text-input-chip-container');
-        
+
         let containerSuffix = ''; // Used to construct the correct HTML ID for the hidden input
         if (type === 'finding') {
             containerSuffix = 'Findings';
@@ -521,7 +521,7 @@ export function initializeManualChipInput() {
             return;
         }
         const hiddenInputId = `final${containerSuffix}Input`;
-        
+
         // Setup autocomplete for this specific chip input
         setupAutocompleteForInput(
             inputField,
@@ -541,7 +541,7 @@ export function initializeManualChipInput() {
         );
 
         // Additional keydown listener for backspace to remove last chip (specific to chip inputs)
-        inputField.addEventListener('keydown', function(e) {
+        inputField.addEventListener('keydown', function (e) {
             if (e.key === 'Backspace' && this.value.trim() === '') {
                 const lastChip = container.querySelector('.chip:last-child');
                 if (lastChip && lastChip.classList.contains('chip')) {
