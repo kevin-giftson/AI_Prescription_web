@@ -2,112 +2,177 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>AI Prescription Suggestion Maker</title>
-    <style>
 
-        .container {
-            max-width: 1200px;
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Optional: FontAwesome for icons if you want -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+        /* Keep the Poppins font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f6;
+            margin: 20px;
+        }
+
+        .container-custom {
+            max-width: 1500px;
             margin: auto;
-            padding: 25px;
+            padding: 2rem;
+            background-color: #fff;
             border: 1px solid #e0e0e0;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            background-color: white;
         }
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
+        /* Chip Input Styling */
+        .text-input-chip-container {
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            min-height: 3rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            background-color: #fff;
+            position: relative;
+            /* for dropdown positioning */
         }
 
-        input[type="text"],
-        textarea,
-        select {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-            box-sizing: border-box;
-        }
-
-        select {
-            width: 100%;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
+        .text-input-chip-container input {
+            flex-grow: 1;
             border: none;
-            border-radius: 5px;
+            outline: none;
+            padding: 0.25rem 0;
+            margin: 0;
+            min-width: 6rem;
+            font-size: 1rem;
+        }
+
+        /* Chips style */
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            background-color: #0d6efd;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+        }
+
+        .chip-remove {
+            background: none;
+            border: none;
+            color: white;
+            font-weight: 700;
+            margin-left: 0.5rem;
             cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.2s ease;
+            font-size: 1.1rem;
+            line-height: 1;
         }
 
-        button:hover {
-            background-color: #0056b3;
+        .chip-remove:hover {
+            color: #ff6b6b;
         }
 
-        /* Two-Column Layout */
-        .content-wrapper {
-            display: flex;
-            gap: 20px;
-            /* Space between columns */
+        /* Autocomplete dropdown */
+        .autocomplete-dropdown {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #dee2e6;
+            max-height: 10rem;
+            overflow-y: auto;
+            z-index: 1200;
+            width: calc(100% - 1.5rem);
+            left: 0.75rem;
+            top: 100%;
+            border-radius: 0.375rem;
+            box-shadow: 0 0.25rem 0.5rem rgb(0 0 0 / 0.1);
+            display: none;
         }
 
-        .details-column {
-            flex: 7;
-            /* Takes 70% of available space */
-            padding-right: 10px;
-            /* Small padding to prevent text touching edge */
+        .autocomplete-dropdown-item {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-bottom: 1px solid #e9ecef;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .suggestions-column {
-            flex: 3;
-            /* Takes 30% of available space */
-            border-left: 1px solid #eee;
-            padding-left: 20px;
+        .autocomplete-dropdown-item:last-child {
+            border-bottom: none;
         }
 
-        /* Layout for Name, Age, Gender */
-        .form-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
+        .autocomplete-dropdown-item:hover,
+        .autocomplete-dropdown-item.active {
+            background-color: #e9f0ff;
         }
 
-        .form-column {
-            flex: 1;
+        /* Medication Table */
+        .medications-table-container {
+            margin-bottom: 1.25rem;
+            padding: 1rem;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 0.5rem;
         }
 
-        .form-column label,
-        .form-column input,
-        .form-column select {
-            margin-bottom: 0;
+        .medications-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.75rem;
         }
 
-        .suggestions h3 {
+        .medications-table th,
+        .medications-table td {
+            border: 1px solid #dee2e6;
+            padding: 0.5rem;
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+
+        .medications-table th {
+            background-color: #eaf6ff;
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .medications-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .add-row-btn {
+            margin-top: 0.75rem;
+        }
+
+        /* Suggestions column */
+        .suggestions-column h3 {
             margin-top: 0;
-            /* Reset margin for h3 in suggestions column */
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #212529;
         }
 
         .suggestion-item {
             background-color: #e6f7ff;
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 6px;
-            cursor: pointer;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.375rem;
             border: 1px solid #a3e6ff;
-            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+            cursor: pointer;
             display: flex;
             align-items: center;
+            transition: background-color 0.2s, border-color 0.2s, transform 0.1s ease;
         }
 
         .suggestion-item:hover {
@@ -119,129 +184,28 @@
             background-color: #d4edda;
             border-color: #c3e6cb;
         }
-
-        h1,
-        h2,
-        h3,
-        h4 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-
-        /* Chip Input Styling */
-        .text-input-chip-container {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 5px;
-            min-height: 40px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            align-items: center;
-            margin-bottom: 15px;
-            background-color: #fff;
-            position: relative;
-            /* For positioning the internal input and dropdown */
-        }
-
-        .text-input-chip-container input {
-            /* Style for the actual text input inside the chip container */
-            flex-grow: 1;
-            /* Allow input to take remaining space */
-            border: none;
-            outline: none;
-            padding: 5px 0;
-            /* Adjust padding for visual alignment */
-            margin: 0;
-            /* Remove default margin */
-            width: auto;
-            /* Override 100% width from general input style */
-            min-width: 80px;
-            /* Ensure input is always visible */
-        }
-
-        .chip {
-            display: inline-flex;
-            align-items: center;
-            background-color: #007bff;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.9em;
-        }
-
-        .chip-remove {
-            background: none;
-            border: none;
-            color: white;
-            font-weight: bold;
-            margin-left: 5px;
-            cursor: pointer;
-            font-size: 1.1em;
-            padding: 0 3px;
-            line-height: 1;
-        }
-
-        .chip-remove:hover {
-            color: #ffdddd;
-        }
-
-        /* Autocomplete dropdown for manual typing */
-        .autocomplete-dropdown {
-            position: absolute;
-            background-color: white;
-            border: 1px solid #ddd;
-            max-height: 150px;
-            overflow-y: auto;
-            z-index: 100;
-            width: calc(100% - 10px);
-            /* Match container width minus padding */
-            left: 5px;
-            top: 100%;
-            /* Position right below the input container */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            display: none;
-            /* Hidden by default */
-        }
-
-        .autocomplete-dropdown-item {
-            padding: 8px 10px;
-            cursor: pointer;
-            border-bottom: 1px solid #eee;
-        }
-
-        .autocomplete-dropdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .autocomplete-dropdown-item:hover,
-        .autocomplete-dropdown-item.active {
-            background-color: #f0f0f0;
-        }
     </style>
-    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="container">
-        <h1>AI Prescription Suggestion Maker</h1>
-        <div class="content-wrapper">
-            <div class="details-column">
-                <form id="patientForm">
-                    <div class="form-row">
-                        <div class="form-column">
-                            <label for="patientName">Patient Name:</label>
-                            <input type="text" id="patientName" required>
+    <div class="container-custom">
+        <h1 class="mb-4 fw-bold">AI Prescription Suggestion Maker</h1>
+        <div class="row g-4">
+            <div class="col-lg-9">
+                <form id="patientForm" novalidate>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="patientName" class="form-label fw-semibold">Patient Name:</label>
+                            <input type="text" class="form-control" id="patientName" required>
                         </div>
-                        <div class="form-column">
-                            <label for="age">Age:</label>
-                            <input type="text" id="age" required>
+                        <div class="col-md-4">
+                            <label for="age" class="form-label fw-semibold">Age:</label>
+                            <input type="text" class="form-control" id="age" required>
                         </div>
-                        <div class="form-column">
-                            <label for="gender">Gender:</label>
-                            <select id="gender" required>
-                                <option value="">Select Gender</option>
+                        <div class="col-md-4">
+                            <label for="gender" class="form-label fw-semibold">Gender:</label>
+                            <select class="form-select" id="gender" required>
+                                <option value="" selected disabled>Select Gender</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                                 <option value="Other">Other</option>
@@ -249,78 +213,96 @@
                         </div>
                     </div>
 
-                    <label for="symptoms">Symptoms (e.g., fever, cough, headache):</label>
-                    <textarea id="symptoms" rows="4" required></textarea>
-
-                    <label for="pastMedicalHistory">Past Medical History / Long-term Problems (Optional, e.g., Sugar,
-                        Hypertension):</label>
-                    <textarea id="pastMedicalHistory" rows="2"></textarea>
-
-                    <label>Findings:</label>
-                    <div id="selectedFindingsChips" class="text-input-chip-container">
-                        <input type="text" placeholder="Add findings or type here..." class="chip-manual-input"
-                            data-type="finding">
-                        <div class="autocomplete-dropdown" id="findingsAutocompleteDropdown"></div>
+                    <div class="mb-3">
+                        <label for="symptoms" class="form-label fw-semibold">Symptoms <small class="text-muted">(e.g.,
+                                fever, cough, headache)</small>:</label>
+                        <textarea class="form-control" id="symptoms" rows="4" required></textarea>
                     </div>
-                    <input type="hidden" id="finalFindingsInput" name="finalFindings">
 
-                    <!-- NEW MEDICATIONS TABLE STRUCTURE -->
-                    <label>Medications:</label>
-                     <div id="selectedMedicationsChips" class="text-input-chip-container">
-                        <input type="text" placeholder="Add medications or type here..." class="chip-manual-input"
-                            data-type="medication">
-                        <div class="autocomplete-dropdown" id="medicationsAutocompleteDropdown"></div>
-                        
-                        <div id="medicationsTableContainer" class="medications-table-container">
-                            <table class="medications-table">
-                                <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Medicine Name</th>
-                                        <th>Medicine Type</th>
-                                        <th>Dosage</th>
-                                        <th>Duration (in days)</th>
-                                        <th>Instruction</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="medicationsTableBody">
-                                    <!-- Medication rows will be injected here by JavaScript -->
-                                </tbody>
-                            </table>
-                            <button type="button" class="add-row-btn" id="addMedicationRowBtn">Add Medication</button>
-                            
+                    <div class="mb-3">
+                        <label for="pastMedicalHistory" class="form-label fw-semibold">Past Medical History / Long-term
+                            Problems <small class="text-muted">(Optional, e.g., Sugar, Hypertension)</small>:</label>
+                        <textarea class="form-control" id="pastMedicalHistory" rows="2"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Findings:</label>
+                        <div id="selectedFindingsChips" class="text-input-chip-container">
+                            <input type="text" placeholder="Add findings or type here..." class="chip-manual-input"
+                                data-type="finding" aria-label="Add findings">
+                            <div class="autocomplete-dropdown" id="findingsAutocompleteDropdown"></div>
                         </div>
-                        <!-- Hidden input to store medication data as JSON -->
-                        <input type="hidden" id="finalMedicationsInput" name="finalMedications">
-                        <!-- END NEW MEDICATIONS TABLE STRUCTURE -->
+                        <input type="hidden" id="finalFindingsInput" name="finalFindings" />
+                    </div>
 
-                        <label>Lab Tests:</label>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Medications:</label>
+                        <div id="selectedMedicationsChips" class="text-input-chip-container">
+                            <input type="text" placeholder="Add medications or type here..." class="chip-manual-input"
+                                data-type="medication" aria-label="Add medications">
+                            <div class="autocomplete-dropdown" id="medicationsAutocompleteDropdown"></div>
+
+                            <!-- START: Wrap table in a div with overflow -->
+                            <div id="medicationsTableContainer" class="medications-table-container">
+                                <div class="table-responsive" style="overflow-x: auto !important;">
+                                    <table class="table medications-table table-bordered table-striped mb-0">
+                                        <thead style="white-space: nowrap;">
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Medicine Name</th>
+                                                <th>Medicine Type</th>
+                                                <th>Dosage</th>
+                                                <th>Duration (in days)</th>
+                                                <th>Instruction</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="medicationsTableBody">
+                                            <!-- Medication rows injected here via JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button type="button" class="btn btn-info add-row-btn mt-2" id="addMedicationRowBtn">
+                                    Add Medication
+                                </button>
+                            </div>
+                            <!-- END: Table container -->
+                        </div>
+                        <input type="hidden" id="finalMedicationsInput" name="finalMedications">
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Lab Tests:</label>
                         <div id="selectedLabTestsChips" class="text-input-chip-container">
                             <input type="text" placeholder="Add lab tests or type here..." class="chip-manual-input"
-                                data-type="lab_test">
+                                data-type="lab_test" aria-label="Add lab tests">
                             <div class="autocomplete-dropdown" id="labTestsAutocompleteDropdown"></div>
                         </div>
                         <input type="hidden" id="finalLabTestsInput" name="finalLabTests">
+                    </div>
 
-                        <button type="submit">Get Suggestions</button>
+                    <button type="submit" class="btn btn-primary w-100">Get Suggestions</button>
                 </form>
             </div>
 
-            <div class="suggestions-column">
-                <div class="suggestions" id="aiSuggestions">
+            <div class="col-lg-3">
+                <div class="suggestions-column">
                     <h3>Suggested Findings:</h3>
                     <div id="findingsList"></div>
 
-                    <h3>Suggested Medications from AI:</h3>
+                    <h3 class="mt-4">Suggested Medications from AI:</h3>
                     <div id="medicationsList"></div>
 
-                    <h3>Suggested Lab Tests:</h3>
+                    <h3 class="mt-4">Suggested Lab Tests:</h3>
                     <div id="labTestsList"></div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Bootstrap JS Bundle with Popper (needed for dropdowns, modals, etc. if used) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script type="module" src="script.js"></script>
 </body>
