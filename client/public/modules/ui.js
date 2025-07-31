@@ -158,32 +158,44 @@ export function renderMedicationsTable() {
         med.id = med.id || Date.now() + '-' + index; // Ensure each row has a unique ID for dynamic updates
 
         row.innerHTML = `
-            <td>${index + 1}</td>
-            <td style="position: relative;"> <input type="text" class="med-name-input" value="${med.name || ''}">
-                </td>
-            <td>
-                <select class="med-type-select">
+            <td data-label="S.No" style="min-width: 50px;">${index + 1}</td>
+
+            <td data-label="Medication Name" style="min-width: 150px; position: relative;">
+                <input type="text" class="form-control med-name-input" value="${med.name || ''}">
+            </td>
+
+            <td data-label="Type" style="min-width: 120px;">
+                <select class="form-control med-type-select">
                     ${MEDICATION_TYPES.map(type => `<option value="${type}" ${med.type === type ? 'selected' : ''}>${type}</option>`).join('')}
                 </select>
             </td>
-            <td class="dosage-cell" data-med-id="${med.id}">
+
+            <td data-label="Dosage" class="dosage-cell" data-med-id="${med.id}" style="min-width: 200px;">
                 ${generateDosageHtml(med)}
             </td>
-            <td>
-                <select class="duration-number-select" style="width: 60px;">
-                    ${Array.from({ length: 15 }, (_, i) => i + 1).map(num => `<option value="${num}" ${med.duration.number == num ? 'selected' : ''}>${num}</option>`).join('')}
-                </select>
-                <select class="duration-unit-select" style="width: 80px;">
-                    <option value="days" ${med.duration.unit === 'days' ? 'selected' : ''}>days</option>
-                    <option value="weeks" ${med.duration.unit === 'weeks' ? 'selected' : ''}>weeks</option>
-                    <option value="months" ${med.duration.unit === 'months' ? 'selected' : ''}>months</option>
-                </select>
+
+            <td data-label="Duration" style="min-width: 160px;">
+                <div style="display: flex; gap: 5px;">
+                    <select class="form-control duration-number-select" style="width: 60px;">
+                        ${Array.from({ length: 15 }, (_, i) => i + 1).map(num => `<option value="${num}" ${med.duration.number == num ? 'selected' : ''}>${num}</option>`).join('')}
+                    </select>
+                    <select class="form-control duration-unit-select" style="width: 80px;">
+                        <option value="days" ${med.duration.unit === 'days' ? 'selected' : ''}>days</option>
+                        <option value="weeks" ${med.duration.unit === 'weeks' ? 'selected' : ''}>weeks</option>
+                        <option value="months" ${med.duration.unit === 'months' ? 'selected' : ''}>months</option>
+                    </select>
+                </div>
             </td>
-            <td><textarea class="instruction-textarea" rows="2" placeholder="Specific instructions">${med.instruction || ''}</textarea></td>
-            <td class="action-buttons">
-                <button type="button" class="delete-btn" data-index="${index}">Delete</button>
+
+            <td data-label="Instruction" style="min-width: 180px;">
+                <textarea class="form-control instruction-textarea" rows="2" placeholder="Specific instructions">${med.instruction || ''}</textarea>
+            </td>
+
+            <td data-label="Action" style="min-width: 100px;">
+                <button type="button" class="btn btn-danger btn-sm delete-btn" data-index="${index}">Delete</button>
             </td>
         `;
+
 
         const medNameInput = row.querySelector('.med-name-input');
         medNameInput.addEventListener('input', (e) => {
